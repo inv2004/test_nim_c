@@ -50,8 +50,8 @@ proc main() =
   printSS(ss)
   let r = ss.u.r
   printSS(r)
-  # printSS(r[0])
-  # printSS(r[1])
+  printSS(r[0])
+  printSS(r[1])
 
 
 when isMainModule:
