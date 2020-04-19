@@ -4,22 +4,20 @@ type
   S* = ptr object
     val*: cint
     sz*: cint
-    arr*: UncheckedArray[S]
+    arr*: UncheckedArray[byte] # it is important to have byte here to align struct
 
   SS_CONTAINER {.bycopy.} = object
     sz: cint
-    arr: UncheckedArray[SS]
+    arr: UncheckedArray[byte] # it is important to have byte here to align struct
 
   SS_UNION {.union, bycopy.} = object
     val: cint
-    r: ptr SS_STRUCT
+    r: SS
     container: SS_CONTAINER
 
-  SS_STRUCT* {.bycopy.} = object
+  SS* {.bycopy.} = ptr object
     t*: cint
     u*: SS_UNION
-
-  SS* = ptr SS_STRUCT
 
 proc mkS(): S {.
   importc: "mkS", header: "\"a.h\"".}
@@ -31,7 +29,7 @@ proc pS(s: S) =
   echo "S: val: " , s.val, " sz: ", s.sz
 
 proc `[]`(s: S, i: int): S =
-  s.arr[i]
+  cast[UncheckedArray[S]](s.arr)[i]
 
 proc mkSS(): SS {.
   importc: "mkSS", header: "\"a.h\"".}
@@ -43,14 +41,14 @@ proc printSS(ss: SS) {.
   importc: "printSS", header: "\"a.h\"".}
 
 proc `[]`(ss: SS, i: int): SS =
-  ss.u.container.arr[i]
+  cast[UncheckedArray[SS]](ss.u.container.arr)[i]
 
 proc main() =
-  # let s = mkS()
-  # printS(s)
-  # pS(s)
-  # pS(s[0])
-  # pS(s[1])
+  let s = mkS()
+  printS(s)
+  pS(s)
+  pS(s[0])
+  pS(s[1])
   let ss = mkSS()
   echo "C:"
   printAllSS(ss)
