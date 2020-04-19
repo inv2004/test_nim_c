@@ -1,4 +1,4 @@
-{.link: "a.o".}
+{.compile: "a.c".}
 
 type
   S* = ptr object
