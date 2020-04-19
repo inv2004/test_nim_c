@@ -6,18 +6,20 @@ type
     sz*: cint
     arr*: UncheckedArray[S]
 
-  SS_CONTAINER = object
+  SS_CONTAINER {.bycopy.} = object
     sz: cint
     arr: UncheckedArray[SS]
 
-  SS_UNION {.union.} = object
+  SS_UNION {.union, bycopy.} = object
     val: cint
-    r: SS
+    r: ptr SS_STRUCT
     container: SS_CONTAINER
 
-  SS* = ptr object
+  SS_STRUCT* {.bycopy.} = object
     t*: cint
     u*: SS_UNION
+
+  SS* = ptr SS_STRUCT
 
 proc mkS(): S {.
   importc: "mkS", header: "\"a.h\"".}
