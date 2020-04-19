@@ -69,6 +69,14 @@ SS mkSS() {
     return ss0;
 }
 
+void printAllSS(SS ss) {
+    printSS(ss);
+    SS r = ss->ref;
+    printSS(r);
+    printSS(((SS*)(r->arr))[0]);
+    printSS(((SS*)(r->arr))[1]);
+}
+
 // void main() {
 //     S s = mkS();
 //     printS(s);

@@ -20,4 +20,5 @@ S mkS();
 void printS(S s);
 
 SS mkSS();
+void printAllSS(SS ss);
 void printSS(SS ss);

@@ -34,6 +34,9 @@ proc `[]`(s: S, i: int): S =
 proc mkSS(): SS {.
   importc: "mkSS", header: "\"a.h\"".}
 
+proc printAllSS(ss: SS) {.
+  importc: "printAllSS", header: "\"a.h\"".}
+
 proc printSS(ss: SS) {.
   importc: "printSS", header: "\"a.h\"".}
 
@@ -47,6 +50,11 @@ proc main() =
   # pS(s[0])
   # pS(s[1])
   let ss = mkSS()
+  echo "C:"
+  printAllSS(ss)
+
+  echo()
+  echo "NIM:"
   printSS(ss)
   let r = ss.u.r
   printSS(r)
